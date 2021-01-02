@@ -60,8 +60,8 @@ prevBtn.addEventListener('click', prevSlide);
 //Set ids for the clones to differentiate from the others, or loop doesnt work
 cloneOne.id = 'clone1';
 cloneFive.id = 'clone5';
-
-slideGroup.addEventListener('transitionend', () => { //transitionend means each time it moves once. use transitionend bc used slideGroup.style.transition above
+	
+function transitionEnd() {
 	console.log('transitionend works')
 	slide = document.querySelectorAll('.slide'); //has to be defined again inside function, bc in global scope has only 7 slides. Bc prepend and append happened AFTER the first time 'slide' was assigned. 
 	if(slide[index].id === 'clone1') {
@@ -74,7 +74,8 @@ slideGroup.addEventListener('transitionend', () => { //transitionend means each 
          index = 7;
 	 	slideGroup.style.transform = `translateX(${-width * index}px)`;
 	}
-});
+}
+slideGroup.addEventListener('transitionend', transitionEnd); //transitionend means each time it moves once. use transitionend bc used slideGroup.style.transition above
 
 // When press play/pause button, start/stop and change icon
 function playOrPause() {
