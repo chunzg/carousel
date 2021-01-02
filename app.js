@@ -22,6 +22,8 @@ const cloneSeven = slide[6].cloneNode(true);
 slideGroup.prepend(cloneFour, cloneFive, cloneSix, cloneSeven);
 slideGroup.append(cloneOne, cloneTwo, cloneThree, cloneFour); 
 
+slide = document.querySelectorAll('.slide'); 
+
 // Set the slide width ie. amount to move
 //why -slideWidth? bc moving left
 const width = slide[index].clientWidth; 
@@ -40,14 +42,12 @@ window.addEventListener('load', () => {
 // Move to next slide
 function nextSlide() {
 	console.log('nextslide works')
-	slide = document.querySelectorAll('.slide');
 	index >= slide.length - 4 ? false : index++; //return false means don't continue 
 	slideGroup.style.transform = `translateX(${-width * index}px)`;//needs to be *index bc it signifies the position we are moving it to the left from the starting point. 
 	slideGroup.style.transition = '1s'; 
 }
 // Move to previous slide
 function prevSlide() {
-	slide = document.querySelectorAll('.slide');
     index <= 0 ? false : index--; //false is to stop it from going off the carousel
 	slideGroup.style.transform = `translateX(${-width * index}px)`;
 	slideGroup.style.transition = '1s';
@@ -63,7 +63,6 @@ cloneFive.id = 'clone5';
 	
 function transitionEnd() {
 	console.log('transitionend works')
-	slide = document.querySelectorAll('.slide'); //has to be defined again inside function, bc in global scope has only 7 slides. Bc prepend and append happened AFTER the first time 'slide' was assigned. 
 	if(slide[index].id === 'clone1') {
 		slideGroup.style.transition = 'ease-in';
         index = 3;
