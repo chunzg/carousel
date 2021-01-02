@@ -5,28 +5,27 @@ const nextBtn = document.querySelector('.next-btn');
 const prevBtn = document.querySelector('.prev-btn');
 let playPause = document.querySelector('.pause');
 let slide = document.querySelectorAll('.slide');
-let index = 4; //must not start on 0 or can't use backwards button
-// let playing = true; 
+let index = 3; //must not start on 0 or can't use backwards button
 let intervalId;
 
 //--------------------------------------------
 // Clone images
-const cloneZero = slide[0].cloneNode(true);
-const cloneOne = slide[1].cloneNode(true);
-const cloneTwo = slide[2].cloneNode(true);
-const cloneThree = slide[3].cloneNode(true);
-const cloneFour = slide[4].cloneNode(true);
-const cloneFive = slide[5].cloneNode(true);
-const cloneSix = slide[6].cloneNode(true);
+const cloneOne = slide[0].cloneNode(true);
+const cloneTwo = slide[1].cloneNode(true);
+const cloneThree = slide[2].cloneNode(true);
+const cloneFour = slide[3].cloneNode(true);
+const cloneFive = slide[4].cloneNode(true);
+const cloneSix = slide[5].cloneNode(true);
+const cloneSeven = slide[6].cloneNode(true);
 
 // Add clones to start and end of slide group
-slideGroup.prepend(cloneThree, cloneFour, cloneFive, cloneSix);
-slideGroup.append(cloneZero, cloneOne, cloneTwo, cloneThree, cloneFour);
+slideGroup.prepend(cloneFour, cloneFive, cloneSix, cloneSeven);
+slideGroup.append(cloneOne, cloneTwo, cloneThree, cloneFour); 
 
 // Set the slide width ie. amount to move
 //why -slideWidth? bc moving left
 const width = slide[index].clientWidth; 
-slideGroup.style.transform = `translateX(${-width * index}px)`; //this line is to set the first image we see as index 1
+slideGroup.style.transform = `translateX(${-width * index}px)`; //this line is to set the first image we see as index 4
 
 // Start automatic loop on page load
 // no need for explicit return bc not block code in curly braces
@@ -75,10 +74,10 @@ slideGroup.addEventListener('transitionend', () => { //transitionend means each 
 // When press play/pause button, start/stop and change icon
 function playOrPause() {
 	if(!intervalId) {
-		playPause.src = 'img/pause_.png';
+		playPause.src = 'img/pause.png';
 		return startSlide(); 
 	} else {
-		playPause.src = 'img/play_.png';
+		playPause.src = 'img/play.png';
 		clearInterval(intervalId);
 		intervalId = null;
 	}
@@ -105,23 +104,3 @@ function onKeydown(e) {
 }
 document.addEventListener('keydown', onKeydown);
 
-
-/* 
-Things to clarify:
-
-1. transitions put here bc in css doesn't work - why? could do it css way but would need to move most of it to css then, like having keyframe etc
-2. lines 65 + 70 slideGroup.style.transform - if don't have this, slides scroll back to index 2? dont understand why. 
-3. Why exactly do we need 'intervalId = null' line
-4. why use const and let in different places
-5. check which one is better, return startSlide or intervalId = startSlide()
-6. understand why play pause button works with input but not button. 
-
-Things to change:
-
-1. Make the className into toggle method for the button image change
-
-
-To add if have time: 
-
-1. Make playpause button fade in and out more subtly
-*/
