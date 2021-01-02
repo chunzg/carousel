@@ -32,10 +32,14 @@ slideGroup.style.transform = `translateX(${-width * index}px)`; //this line is t
 // no need to do anon function inside setInterval bc nextSlide is in global scope
 const startSlide = () => intervalId = setInterval(nextSlide, 2000); 
 startSlide();
+window.addEventListener('load', () => {
+	console.log('worked')
+})
 
 // When click the arrows...
 // Move to next slide
 function nextSlide() {
+	console.log('nextslide works')
 	slide = document.querySelectorAll('.slide');
 	index >= slide.length - 4 ? false : index++; //return false means don't continue 
 	slideGroup.style.transform = `translateX(${-width * index}px)`;//needs to be *index bc it signifies the position we are moving it to the left from the starting point. 
@@ -58,6 +62,7 @@ cloneOne.id = 'clone1';
 cloneFive.id = 'clone5';
 
 slideGroup.addEventListener('transitionend', () => { //transitionend means each time it moves once. use transitionend bc used slideGroup.style.transition above
+	console.log('transitionend works')
 	slide = document.querySelectorAll('.slide'); //has to be defined again inside function, bc in global scope has only 7 slides. Bc prepend and append happened AFTER the first time 'slide' was assigned. 
 	if(slide[index].id === 'clone1') {
 		slideGroup.style.transition = 'ease-in';
@@ -73,6 +78,7 @@ slideGroup.addEventListener('transitionend', () => { //transitionend means each 
 
 // When press play/pause button, start/stop and change icon
 function playOrPause() {
+	console.log('playpause works')
 	if(!intervalId) {
 		playPause.src = 'img/pause.png';
 		return startSlide(); 
