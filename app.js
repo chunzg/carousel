@@ -24,11 +24,7 @@ const slideWidth = slides[index].clientWidth;
 slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 
 // Function to start moving
-const startSlide = () => {
-	return intervalId = setInterval(() => { 
-		nextSlide();
-	}, 2000);
-};
+const startSlide = () => intervalId = setInterval(nextSlide, 2000);
 
 // Redefine slides bc length has changed
 slides = document.querySelectorAll('.slide');
@@ -63,7 +59,7 @@ const prevSlide = () => {
 nextBtn.addEventListener('click', nextSlide);
 prevBtn.addEventListener('click', prevSlide);
 
-// Start on load
+//Start on load (here bc hoisting)
 startSlide();
 
 // Start/stop function
