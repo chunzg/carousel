@@ -1,14 +1,12 @@
 // CAROUSEL VARIABLES
-const carousel = document.querySelector('.carousel');
 const slideGroup = document.querySelector('.slides');
 const nextBtn = document.querySelector('.next-btn');
 const prevBtn = document.querySelector('.prev-btn');
 let playPause = document.querySelector('.pause');
 let slide = document.querySelectorAll('.slide');
-let index = 3; //must not start on 0 or can't use backwards button
+let index = 0; //must not start on 0 or can't use backwards button
 let intervalId;
 
-//--------------------------------------------
 // Clone images
 const cloneOne = slide[0].cloneNode(true);
 const cloneTwo = slide[1].cloneNode(true);
@@ -26,8 +24,8 @@ slide = document.querySelectorAll('.slide');
 
 // Set the slide width ie. amount to move
 //why -slideWidth? bc moving left
-const width = slide[index].clientWidth; 
-slideGroup.style.transform = `translateX(${-width * index}px)`; //this line is to set the first image we see as index 4
+const width = slide[0].clientWidth; 
+// slideGroup.style.transform = `translateX(${-width * index}px)`; //this line is to set the first image we see as index 4
 
 // Start automatic loop on page load
 // no need for explicit return bc not block code in curly braces
