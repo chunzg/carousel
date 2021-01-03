@@ -28,57 +28,54 @@ slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 const startSlide = () => {
 	playing = true;
 	return intervalId = setInterval(() => { 
-		moveToNextSlide();
+		nextSlide();
 	}, 2000);
 };
 
 // Redefine slides bc length has changed
 slides = document.querySelectorAll('.slide');
 
-// WHEN THE CSS TRANSITION ENDS, KEEP GOING
+// When css transition ends, keep going
 slideGroup.addEventListener('transitionend', () => {
-	// slides = getSlides();
-	if (slides[index].id === firstClone.id) {
+	if(slides[index].id === firstClone.id) {
 		slideGroup.style.transition = 'none';
 		index = 1;
 		slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 	}
-	if (slides[index].id === lastClone.id) {
+	if(slides[index].id === lastClone.id) {
 		slideGroup.style.transition = 'none';
 		index = slides.length - 2;
 		slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 	}
 });
 
-// FUNCTION FOR MOVING TO NEXT SLIDE
-const moveToNextSlide = () => {
-	// slides = getSlides();
-	if (index >= slides.length - 1) return;
+// Function to move to next slide
+const nextSlide = () => {
+	if(index >= slides.length - 1) return;
 	index++;
 	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 	slideGroup.style.transition = '.8s';
 }
 
 // FUNCTION FOR MOVING TO PREVIOUS SLIDE
-const moveToPrevSlide = () => {
-	// slides = getSlides();
-	if (index <= 0) return;
+const prevSlide = () => {
+	if(index <= 0) return;
 	index--;
 	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 	slideGroup.style.transition = '.7s';
 }
 
 // WHEN CLICK THE ARROWS, MOVE TO NEXT OR PREVIOUS SLIDES
-nextBtn.addEventListener('click', moveToNextSlide);
-prevBtn.addEventListener('click', moveToPrevSlide);
+nextBtn.addEventListener('click', nextSlide);
+prevBtn.addEventListener('click', prevSlide);
 
 // START AUTOMATIC SLIDESHOW 
 startSlide();
 
 // PLAY PAUSE BUTTON - slideshow start/stop
-playPause.addEventListener('click', () => {
+function playOrPause() {
 	if(!intervalId) {
-		intervalId = startSlide(); // WHY DO I HAVE TO SPECIFY SLIDE ID = STARTSLIDE. WHY CAN'T IT JUST BE STARTSLIDE(). 
+		intervalId = startSlide(); 
 		playPause.src = 'img/pause.png';
 		console.log('started');
 	} else {
@@ -87,7 +84,8 @@ playPause.addEventListener('click', () => {
 		playPause.src = 'img/play.png';
 		console.log('stopped');
 	}
-});
+}
+playPause.addEventListener('click', playOrPause);
 
 // PLAY PAUSE BUTTON - mouseover event
 slideContainer.addEventListener('mouseout', () => {
@@ -97,22 +95,18 @@ slideContainer.addEventListener('mouseover', () => {
 	playPause.style.display = 'block';
 })
 
-// KEYBOARD FUNCTION
-document.onkeydown = function (event) {
-	event = event || window.event;
-	switch (event.keyCode) {
+// Keyboard function
+function onKeydown(e) {
+	switch(e.keyCode) {
 		case 37:
-			leftArrowPressed();
+			prevSlide();
 			break;
 		case 39:
-			rightArrowPressed();
+			nextSlide();
 			break;
+		case 32:
+			e.preventDefault();
+			playOrPause();
 	}
 }
-
-function leftArrowPressed() {
-	moveToPrevSlide();
-}
-function rightArrowPressed() {
-	moveToNextSlide();
-}
+document.addEventListener('keydown', onKeydown);
