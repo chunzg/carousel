@@ -1,43 +1,38 @@
-// CAROUSEL VARIABLES
-// CAROUSEL VARIABLES
 const slideContainer = document.querySelector('.carousel');
 const slideGroup = document.querySelector('.slides');
 const nextBtn = document.querySelector('.next-btn');
 const prevBtn = document.querySelector('.prev-btn');
-const interval = 3250;
 const playPause = document.querySelector('.pause');
 let slides = document.querySelectorAll('.slide');
 let index = 1; //bc 0 is clone of last slide
 let intervalId; 
 let playing;
 
-// CLONE FIRST AND LAST CAROUSEL IMAGE
+// Clone first and last image
 const firstClone = slides[0].cloneNode(true);
 const lastClone = slides[slides.length - 1].cloneNode(true);
 
-// SET IDS FOR THESE TWO CLONES
+// Set ids for new clones
 firstClone.id = 'first-clone'; 
 lastClone.id = 'last-clone';
 
-// PLACE CLONES AT START AND END OF SLIDES GROUP
+// Place clones at start and end of slide group
 slideGroup.append(firstClone);
 slideGroup.prepend(lastClone);
 
-// SET SLIDE WIDTH
+// Set slide width and distance to move
 const slideWidth = slides[index].clientWidth;
-
-// SET THE DISTANCE OF THE IMAGE MOVING HORIZONTALLY
 slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 
-// FUNCTION TO START SLIDESHOW
+// Function to start moving
 const startSlide = () => {
 	playing = true;
-	return intervalId = setInterval(() => { // WHY DO I HAVE TO RETURN IT FOR IT TO WORK? //is this example of a closure?
+	return intervalId = setInterval(() => { 
 		moveToNextSlide();
-	}, interval);
+	}, 2000);
 };
 
-// GET ALL OF THE SLIDES
+// Redefine slides bc length has changed
 slides = document.querySelectorAll('.slide');
 
 // WHEN THE CSS TRANSITION ENDS, KEEP GOING
