@@ -38,6 +38,7 @@ window.addEventListener('load', () => {
 
 // When click the arrows...
 // Move to next slide
+nextBtn.addEventListener('click', nextSlide);
 function nextSlide() {
 	console.log('nextslide works')
 	index >= slide.length - 4 ? false : index++; //return false means don't continue 
@@ -45,13 +46,13 @@ function nextSlide() {
 	slideGroup.style.transition = '1s'; 
 }
 // Move to previous slide
+prevBtn.addEventListener('click', prevSlide);
 function prevSlide() {
     index <= 0 ? false : index--; //false is to stop it from going off the carousel
 	slideGroup.style.transform = `translateX(${-width * index}px)`;
 	slideGroup.style.transition = '1s';
 }
-nextBtn.addEventListener('click', nextSlide);
-prevBtn.addEventListener('click', prevSlide);
+
 
 //However it will stop at the last slide, so...
 //When loop ends, keep going
