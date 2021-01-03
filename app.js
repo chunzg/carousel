@@ -24,7 +24,8 @@ const slideWidth = slides[index].clientWidth;
 carousel.style.transform = `translateX(${-slideWidth * index}px)`;
 
 // Function to start moving
-const startSlide = () => intervalId = setInterval(nextSlide, 2000);
+// const startSlide = () => intervalId = setInterval(nextSlide, 2000);
+
 
 // Redefine slides var bc length has changed
 slides = document.querySelectorAll('.slide');
@@ -60,7 +61,8 @@ nextBtn.addEventListener('click', nextSlide);
 prevBtn.addEventListener('click', prevSlide);
 
 //Start on load (here bc hoisting)
-startSlide();
+// startSlide();
+intervalId = setInterval(nextSlide, 2000);
 
 // Start/stop function
 function playOrPause() {
