@@ -1,111 +1,135 @@
 // CAROUSEL VARIABLES
+// CAROUSEL VARIABLES
+const slideContainer = document.querySelector('.carousel');
 const slideGroup = document.querySelector('.slides');
 const nextBtn = document.querySelector('.next-btn');
 const prevBtn = document.querySelector('.prev-btn');
-let playPause = document.querySelector('.pause');
-let slide = document.querySelectorAll('.slide');
-let index = 0; //must not start on 0 or can't use backwards button
-let intervalId;
+const interval = 3250;
+const playPause = document.querySelector('.pause');
+let slides = document.querySelectorAll('.slide');
+let index = 1; //bc 0 is clone of last slide
+let slideId; // this is later set to be the intervalID parameter. 
+let playing;
 
-// Clone images
-const cloneOne = slide[0].cloneNode(true);
-const cloneTwo = slide[1].cloneNode(true);
-const cloneThree = slide[2].cloneNode(true);
-const cloneFour = slide[3].cloneNode(true);
-const cloneFive = slide[4].cloneNode(true);
-const cloneSix = slide[5].cloneNode(true);
-const cloneSeven = slide[6].cloneNode(true);
+// CLONE FIRST AND LAST CAROUSEL IMAGE
+const firstClone = slides[0].cloneNode(true);
+const lastClone = slides[slides.length - 1].cloneNode(true);
 
-// Add clones to start and end of slide group
-slideGroup.prepend(cloneFour, cloneFive, cloneSix, cloneSeven);
-slideGroup.append(cloneOne, cloneTwo, cloneThree, cloneFour); 
+// SET IDS FOR THESE TWO CLONES
+firstClone.id = 'first-clone'; 
+lastClone.id = 'last-clone';
 
-slide = document.querySelectorAll('.slide'); 
+// PLACE CLONES AT START AND END OF SLIDES GROUP
+slideGroup.append(firstClone);
+slideGroup.prepend(lastClone);
 
-// Set the slide width ie. amount to move
-//why -slideWidth? bc moving left
-const width = slide[0].clientWidth; 
-// slideGroup.style.transform = `translateX(${-width * index}px)`; //this line is to set the first image we see as index 4
+// SET SLIDE WIDTH
+const slideWidth = slides[index].clientWidth;
 
-// Start automatic loop on page load
-// no need for explicit return bc not block code in curly braces
-// no need to do anon function inside setInterval bc nextSlide is in global scope
-const startSlide = () => intervalId = setInterval(nextSlide, 2000); 
+// SET THE DISTANCE OF THE IMAGE MOVING HORIZONTALLY
+slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
+
+// FUNCTION TO START SLIDESHOW
+const startSlide = () => {
+	playing = true;
+	return slideId = setInterval(() => { // WHY DO I HAVE TO RETURN IT FOR IT TO WORK? //is this example of a closure?
+		moveToNextSlide();
+	}, interval);
+};
+
+// GET ALL OF THE SLIDES
+const getSlides = () => document.querySelectorAll('.slide');
+
+// WHEN THE CSS TRANSITION ENDS, KEEP GOING
+slideGroup.addEventListener('transitionend', () => {
+	slides = getSlides();
+	if (slides[index].id === firstClone.id) {
+		slideGroup.style.transition = 'none';
+		index = 1;
+		slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
+	}
+	if (slides[index].id === lastClone.id) {
+		slideGroup.style.transition = 'none';
+		index = slides.length - 2;
+		slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
+	}
+});
+
+// FUNCTION FOR MOVING TO NEXT SLIDE
+const moveToNextSlide = () => {
+	slides = getSlides();
+	if (index >= slides.length - 1) return;
+	index++;
+	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
+	slideGroup.style.transition = '.8s';
+}
+
+// FUNCTION FOR MOVING TO PREVIOUS SLIDE
+const moveToPrevSlide = () => {
+	slides = getSlides();
+	if (index <= 0) return;
+	index--;
+	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
+	slideGroup.style.transition = '.7s';
+}
+
+// WHEN CLICK THE ARROWS, MOVE TO NEXT OR PREVIOUS SLIDES
+nextBtn.addEventListener('click', moveToNextSlide);
+prevBtn.addEventListener('click', moveToPrevSlide);
+
+// START AUTOMATIC SLIDESHOW 
 startSlide();
-window.addEventListener('load', () => {
-	console.log('worked')
+
+// PLAY PAUSE BUTTON - slideshow start/stop
+playPause.addEventListener('click', () => {
+	if(!slideId) {
+		slideId = startSlide(); // WHY DO I HAVE TO SPECIFY SLIDE ID = STARTSLIDE. WHY CAN'T IT JUST BE STARTSLIDE(). 
+		console.log('started');
+	} else {
+		clearInterval(slideId);
+		slideId = null;
+		console.log('stopped');
+	}
+});
+
+// PLAY PAUSE BUTTON - image change
+playPause.addEventListener('click', function () { //why function not arrow works here???
+	var button = this; 
+	if(button.className != 'pause') {
+		button.src = 'img/pause.png';
+		button.className = 'pause';
+	} else if (button.className == 'pause') {
+		button.src = 'img/play.png';
+		button.className = 'play';
+	}
+	return false;
+});
+
+// PLAY PAUSE BUTTON - mouseover event
+slideContainer.addEventListener('mouseout', () => {
+	playPause.style.display = 'none';
+})
+slideContainer.addEventListener('mouseover', () => {
+	playPause.style.display = 'block';
 })
 
-// When click the arrows...
-// Move to next slide
-nextBtn.addEventListener('click', nextSlide);
-function nextSlide() {
-	console.log('nextslide works')
-	index >= slide.length - 4 ? false : index++; //return false means don't continue 
-	slideGroup.style.transform = `translateX(${-width * index}px)`;//needs to be *index bc it signifies the position we are moving it to the left from the starting point. 
-	slideGroup.style.transition = '1s'; 
-}
-// Move to previous slide
-prevBtn.addEventListener('click', prevSlide);
-function prevSlide() {
-    index <= 0 ? false : index--; //false is to stop it from going off the carousel
-	slideGroup.style.transform = `translateX(${-width * index}px)`;
-	slideGroup.style.transition = '1s';
-}
 
-
-//However it will stop at the last slide, so...
-//When loop ends, keep going
-//Set ids for the clones to differentiate from the others, or loop doesnt work
-cloneOne.id = 'clone1';
-cloneFive.id = 'clone5';
-	
-function transitionEnd() {
-	console.log('transitionend works')
-	if(slide[index].id === 'clone1') {
-		slideGroup.style.transition = 'ease-in';
-        index = 3;
-		slideGroup.style.transform = `translateX(${-width * index}px)`; 
-	}
-	if(slide[index].id === 'clone5') { //for when we click backwards and lands on lastClone.id
-		slideGroup.style.transition = 'none';
-         index = 7;
-	 	slideGroup.style.transform = `translateX(${-width * index}px)`;
-	}
-}
-slideGroup.addEventListener('transitionend', transitionEnd); //transitionend means each time it moves once. use transitionend bc used slideGroup.style.transition above
-
-// When press play/pause button, start/stop and change icon
-function playOrPause() {
-	console.log('playpause works')
-	if(!intervalId) {
-		playPause.src = 'img/pause.png';
-		return startSlide(); 
-	} else {
-		playPause.src = 'img/play.png';
-		clearInterval(intervalId);
-		intervalId = null;
-	}
-}
-playPause.addEventListener('click', playOrPause)
-
-// Play/pause button mouseover event
-playPause.addEventListener('mouseout', () => playPause.style.opacity = '0');
-playPause.addEventListener('mouseover', () => playPause.style.opacity = '1');
-
-// Keyboard function
-function onKeydown(e) {
-	switch(e.key) {
-		case 'ArrowLeft':
-			prevSlide();
+// KEYBOARD FUNCTION
+document.onkeydown = function (event) {
+	event = event || window.event;
+	switch (event.keyCode) {
+		case 37:
+			leftArrowPressed();
 			break;
-		case 'ArrowRight':
-			nextSlide();
+		case 39:
+			rightArrowPressed();
 			break;
-		case 32:
-			e.preventDefault();
-			playOrPause();
 	}
 }
-document.addEventListener('keydown', onKeydown);
 
+function leftArrowPressed() {
+	moveToPrevSlide();
+}
+function rightArrowPressed() {
+	moveToNextSlide();
+}

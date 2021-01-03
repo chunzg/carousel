@@ -3,26 +3,23 @@
   padding: 5% 0%;
 }
 .carousel {
-  width: 100vw;
+  width: 70%;
   height: auto;
-  margin: auto;
+  margin: 0% 15%;
   position: relative;
-  /* overflow: hidden; */
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 .slides {
-  display: flex; /* displays images in a row */
+  display: flex;
+  height: 100%;
 } 
 .slide {
-  min-width: 25%;
-  /* position: relative; */
+  min-width: 100%;
+  position: relative;
 }
 .slide img {
-  width: 80%; 
-}
+  width: 100%; 
+} 
 .slide-controls {
   position: absolute;
   top: 50%;
@@ -31,6 +28,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border: 0;
 }
 .slide-controls img {
@@ -49,10 +47,11 @@
 }
 .play, 
 .pause {
-  opacity: 1;
-  cursor: pointer;
+  display: none;
   position: absolute;
   width: 4vw;
   outline: none;
-  padding: 15% 25%;
+  top: 54%;
+  transform: translateY(-100%);
+  left: 48%;
 }
