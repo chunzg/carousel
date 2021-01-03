@@ -84,26 +84,28 @@ startSlide();
 playPause.addEventListener('click', () => {
 	if(!slideId) {
 		slideId = startSlide(); // WHY DO I HAVE TO SPECIFY SLIDE ID = STARTSLIDE. WHY CAN'T IT JUST BE STARTSLIDE(). 
+		playPause.src = 'img/pause.png';
 		console.log('started');
 	} else {
 		clearInterval(slideId);
 		slideId = null;
+		playPause.src = 'img/play.png';
 		console.log('stopped');
 	}
 });
 
 // PLAY PAUSE BUTTON - image change
-playPause.addEventListener('click', function () { //why function not arrow works here???
-	var button = this; 
-	if(button.className != 'pause') {
-		button.src = 'img/pause.png';
-		button.className = 'pause';
-	} else if (button.className == 'pause') {
-		button.src = 'img/play.png';
-		button.className = 'play';
-	}
-	return false;
-});
+// playPause.addEventListener('click', function () { //why function not arrow works here???
+// 	var button = this; 
+// 	if(button.className != 'pause') {
+// 		button.src = 'img/pause.png';
+// 		button.className = 'pause';
+// 	} else if (button.className == 'pause') {
+// 		button.src = 'img/play.png';
+// 		button.className = 'play';
+// 	}
+// 	return false;
+// });
 
 // PLAY PAUSE BUTTON - mouseover event
 slideContainer.addEventListener('mouseout', () => {
