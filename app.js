@@ -65,14 +65,12 @@ startSlide();
 // Start/stop function
 function playOrPause() {
 	if(!intervalId) {
-		intervalId = startSlide(); 
+		intervalId = setInterval(nextSlide, 2000); 
 		playPause.src = 'img/pause.png';
-		console.log('started');
 	} else {
 		clearInterval(intervalId);
 		intervalId = null;
 		playPause.src = 'img/play.png';
-		console.log('stopped');
 	}
 }
 playPause.addEventListener('click', playOrPause);
