@@ -1,4 +1,4 @@
-const slideContainer = document.querySelector('.carousel');
+const carousel = document.querySelector('.carousel');
 const slideGroup = document.querySelector('.slides');
 const nextBtn = document.querySelector('.next-btn');
 const prevBtn = document.querySelector('.prev-btn');
@@ -26,7 +26,7 @@ slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 
 // Function to start moving
 const startSlide = () => {
-	playing = true;
+	// playing = true;
 	return intervalId = setInterval(() => { 
 		nextSlide();
 	}, 2000);
@@ -49,30 +49,26 @@ slideGroup.addEventListener('transitionend', () => {
 	}
 });
 
-// Function to move to next slide
+// Function to move to next / prev slide
 const nextSlide = () => {
 	if(index >= slides.length - 1) return;
 	index++;
 	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 	slideGroup.style.transition = '.8s';
 }
-
-// FUNCTION FOR MOVING TO PREVIOUS SLIDE
 const prevSlide = () => {
 	if(index <= 0) return;
 	index--;
 	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 	slideGroup.style.transition = '.7s';
 }
-
-// WHEN CLICK THE ARROWS, MOVE TO NEXT OR PREVIOUS SLIDES
 nextBtn.addEventListener('click', nextSlide);
 prevBtn.addEventListener('click', prevSlide);
 
-// START AUTOMATIC SLIDESHOW 
+// Start on load
 startSlide();
 
-// PLAY PAUSE BUTTON - slideshow start/stop
+// Start/stop function
 function playOrPause() {
 	if(!intervalId) {
 		intervalId = startSlide(); 
@@ -87,12 +83,14 @@ function playOrPause() {
 }
 playPause.addEventListener('click', playOrPause);
 
-// PLAY PAUSE BUTTON - mouseover event
-slideContainer.addEventListener('mouseout', () => {
-	playPause.style.display = 'none';
+// Play pause mouseover event
+carousel.addEventListener('mouseout', () => {
+	playPause.style.opacity = 0;
+	playPause.style.transition = '.5s';
 })
-slideContainer.addEventListener('mouseover', () => {
-	playPause.style.display = 'block';
+carousel.addEventListener('mouseover', () => {
+	playPause.style.opacity = 1;
+	playPause.style.transition = '.5s';
 })
 
 // Keyboard function
