@@ -5,7 +5,7 @@ const prevBtn = document.querySelector('.prev-btn');
 const playPause = document.querySelector('.pause');
 let slides = document.querySelectorAll('.slide');
 let index = 1; //bc 0 is clone of last slide
-let intervalId; 
+// let intervalId; 
 
 // Clone first and last image
 const firstClone = slides[0].cloneNode(true);
@@ -24,8 +24,9 @@ const slideWidth = slides[index].clientWidth;
 carousel.style.transform = `translateX(${-slideWidth * index}px)`;
 
 // Function to start moving
-// const startSlide = () => intervalId = setInterval(nextSlide, 2000);
-
+const startSlide = () => {
+	return intervalId = setInterval(nextSlide, 2000);
+};
 
 // Redefine slides var bc length has changed
 slides = document.querySelectorAll('.slide');
@@ -61,8 +62,7 @@ nextBtn.addEventListener('click', nextSlide);
 prevBtn.addEventListener('click', prevSlide);
 
 //Start on load (here bc hoisting)
-// startSlide();
-intervalId = setInterval(nextSlide, 2000);
+startSlide();
 
 // Start/stop function
 function playOrPause() {
