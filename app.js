@@ -6,7 +6,6 @@ const playPause = document.querySelector('.pause');
 let slides = document.querySelectorAll('.slide');
 let index = 1; //bc 0 is clone of last slide
 let intervalId; 
-let playing;
 
 // Clone first and last image
 const firstClone = slides[0].cloneNode(true);
@@ -26,7 +25,6 @@ slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 
 // Function to start moving
 const startSlide = () => {
-	// playing = true;
 	return intervalId = setInterval(() => { 
 		nextSlide();
 	}, 2000);
