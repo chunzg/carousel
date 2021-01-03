@@ -8,7 +8,7 @@ const interval = 3250;
 const playPause = document.querySelector('.pause');
 let slides = document.querySelectorAll('.slide');
 let index = 1; //bc 0 is clone of last slide
-let slideId; // this is later set to be the intervalID parameter. 
+let intervalId; // this is later set to be the intervalID parameter. 
 let playing;
 
 // CLONE FIRST AND LAST CAROUSEL IMAGE
@@ -32,7 +32,7 @@ slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
 // FUNCTION TO START SLIDESHOW
 const startSlide = () => {
 	playing = true;
-	return slideId = setInterval(() => { // WHY DO I HAVE TO RETURN IT FOR IT TO WORK? //is this example of a closure?
+	return intervalId = setInterval(() => { // WHY DO I HAVE TO RETURN IT FOR IT TO WORK? //is this example of a closure?
 		moveToNextSlide();
 	}, interval);
 };
@@ -82,17 +82,21 @@ startSlide();
 
 // PLAY PAUSE BUTTON - slideshow start/stop
 playPause.addEventListener('click', () => {
-	if(!slideId) {
-		slideId = startSlide(); // WHY DO I HAVE TO SPECIFY SLIDE ID = STARTSLIDE. WHY CAN'T IT JUST BE STARTSLIDE(). 
+	if(!intervalId) {
+		intervalId = startSlide(); // WHY DO I HAVE TO SPECIFY SLIDE ID = STARTSLIDE. WHY CAN'T IT JUST BE STARTSLIDE(). 
 		playPause.src = 'img/pause.png';
 		console.log('started');
 	} else {
-		clearInterval(slideId);
-		slideId = null;
+		clearInterval(intervalId);
+		intervalId = null;
 		playPause.src = 'img/play.png';
 		console.log('stopped');
 	}
 });
+
+
+
+
 
 // PLAY PAUSE BUTTON - image change
 // playPause.addEventListener('click', function () { //why function not arrow works here???
