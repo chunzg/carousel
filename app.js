@@ -8,7 +8,7 @@ const interval = 3250;
 const playPause = document.querySelector('.pause');
 let slides = document.querySelectorAll('.slide');
 let index = 1; //bc 0 is clone of last slide
-let intervalId; // this is later set to be the intervalID parameter. 
+let intervalId; 
 let playing;
 
 // CLONE FIRST AND LAST CAROUSEL IMAGE
@@ -38,11 +38,11 @@ const startSlide = () => {
 };
 
 // GET ALL OF THE SLIDES
-const getSlides = () => document.querySelectorAll('.slide');
+slides = document.querySelectorAll('.slide');
 
 // WHEN THE CSS TRANSITION ENDS, KEEP GOING
 slideGroup.addEventListener('transitionend', () => {
-	slides = getSlides();
+	// slides = getSlides();
 	if (slides[index].id === firstClone.id) {
 		slideGroup.style.transition = 'none';
 		index = 1;
@@ -57,7 +57,7 @@ slideGroup.addEventListener('transitionend', () => {
 
 // FUNCTION FOR MOVING TO NEXT SLIDE
 const moveToNextSlide = () => {
-	slides = getSlides();
+	// slides = getSlides();
 	if (index >= slides.length - 1) return;
 	index++;
 	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
@@ -66,7 +66,7 @@ const moveToNextSlide = () => {
 
 // FUNCTION FOR MOVING TO PREVIOUS SLIDE
 const moveToPrevSlide = () => {
-	slides = getSlides();
+	// slides = getSlides();
 	if (index <= 0) return;
 	index--;
 	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
@@ -94,23 +94,6 @@ playPause.addEventListener('click', () => {
 	}
 });
 
-
-
-
-
-// PLAY PAUSE BUTTON - image change
-// playPause.addEventListener('click', function () { //why function not arrow works here???
-// 	var button = this; 
-// 	if(button.className != 'pause') {
-// 		button.src = 'img/pause.png';
-// 		button.className = 'pause';
-// 	} else if (button.className == 'pause') {
-// 		button.src = 'img/play.png';
-// 		button.className = 'play';
-// 	}
-// 	return false;
-// });
-
 // PLAY PAUSE BUTTON - mouseover event
 slideContainer.addEventListener('mouseout', () => {
 	playPause.style.display = 'none';
@@ -118,7 +101,6 @@ slideContainer.addEventListener('mouseout', () => {
 slideContainer.addEventListener('mouseover', () => {
 	playPause.style.display = 'block';
 })
-
 
 // KEYBOARD FUNCTION
 document.onkeydown = function (event) {
