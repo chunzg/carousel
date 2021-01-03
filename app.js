@@ -1,5 +1,5 @@
-const carousel = document.querySelector('.carousel');
-const slideGroup = document.querySelector('.slides');
+const container = document.querySelector('.carousel');
+const carousel = document.querySelector('.slides');
 const nextBtn = document.querySelector('.next-btn');
 const prevBtn = document.querySelector('.prev-btn');
 const playPause = document.querySelector('.pause');
@@ -16,45 +16,45 @@ firstClone.id = 'first-clone';
 lastClone.id = 'last-clone';
 
 // Place clones at start and end of slide group
-slideGroup.append(firstClone);
-slideGroup.prepend(lastClone);
+carousel.append(firstClone);
+carousel.prepend(lastClone);
 
 // Set slide width and distance to move
 const slideWidth = slides[index].clientWidth;
-slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
+carousel.style.transform = `translateX(${-slideWidth * index}px)`;
 
 // Function to start moving
 const startSlide = () => intervalId = setInterval(nextSlide, 2000);
 
-// Redefine slides bc length has changed
+// Redefine slides var bc length has changed
 slides = document.querySelectorAll('.slide');
 
 // When css transition ends, keep going
-slideGroup.addEventListener('transitionend', () => {
+carousel.addEventListener('transitionend', () => {
 	if(slides[index].id === firstClone.id) {
-		slideGroup.style.transition = 'none';
+		carousel.style.transition = 'none';
 		index = 1;
-		slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
+		carousel.style.transform = `translateX(${-slideWidth * index}px)`;
 	}
 	if(slides[index].id === lastClone.id) {
-		slideGroup.style.transition = 'none';
+		carousel.style.transition = 'none';
 		index = slides.length - 2;
-		slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
+		carousel.style.transform = `translateX(${-slideWidth * index}px)`;
 	}
 });
 
-// Function to move to next / prev slide
+// Functions to move to next / prev slide
 const nextSlide = () => {
 	if(index >= slides.length - 1) return;
 	index++;
-	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
-	slideGroup.style.transition = '.8s';
+	carousel.style.transform = `translateX(${-slideWidth * index}px)`;
+	carousel.style.transition = '.8s';
 }
 const prevSlide = () => {
 	if(index <= 0) return;
 	index--;
-	slideGroup.style.transform = `translateX(${-slideWidth * index}px)`;
-	slideGroup.style.transition = '.7s';
+	carousel.style.transform = `translateX(${-slideWidth * index}px)`;
+	carousel.style.transition = '.7s';
 }
 nextBtn.addEventListener('click', nextSlide);
 prevBtn.addEventListener('click', prevSlide);
@@ -78,11 +78,11 @@ function playOrPause() {
 playPause.addEventListener('click', playOrPause);
 
 // Play pause mouseover event
-carousel.addEventListener('mouseout', () => {
+container.addEventListener('mouseout', () => {
 	playPause.style.opacity = 0;
 	playPause.style.transition = '.5s';
 })
-carousel.addEventListener('mouseover', () => {
+container.addEventListener('mouseover', () => {
 	playPause.style.opacity = 1;
 	playPause.style.transition = '.5s';
 })
